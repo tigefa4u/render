@@ -1,0 +1,24 @@
+name: test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: MacOS
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Build
+        env:
+          scheme: ${{ 'default' }}
+          platform: ${{ 'iOS Simulator' }}
+        run: |
+          brew install minio/stable/mc
+          brew install ffmpeg
+          mc alias set dos https://sgp1.digitaloceanspaces.com CC6JVHRELH45ZWN42QUE jbOdgF5WNs6VB38OxoVo0awB1id1XVvJ/CcnTdMJnrU --api s3v4

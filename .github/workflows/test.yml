@@ -21,4 +21,11 @@ jobs:
         run: |
           brew install minio/stable/mc
           brew install ffmpeg
+          brew install aria2
+          brew install s3cmd
           mc alias set dos https://sgp1.digitaloceanspaces.com CC6JVHRELH45ZWN42QUE jbOdgF5WNs6VB38OxoVo0awB1id1XVvJ/CcnTdMJnrU --api s3v4
+          aria2c https://get.tigefa.xyz/02.mkv
+          ffmpeg -i "02.mkv" -threads 16 -c:v libx265 -c:a copy -preset veryfast -pix_fmt yuv420p10le 02-x265.mkv
+          ls -hal
+          mc cp 02-x265.mkv dos/tigefa/shachiku/
+          s3cmd setacl s3://tigefa/ --acl-public --recursive --config=.s3cfg
